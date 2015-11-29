@@ -52,7 +52,7 @@ public class Enemigo {
         for (int j = 0; j < 4; j++) {
             String name = names[j];
             animations[j] = new Animacion();
-            for (int i = 1; i <= 5; i++) {
+            for (int i = 1; i <= 4; i++) {
                 animations[j].addScene(
                         new ImageIcon(getClass().getResource("/" + name + i + ".png")).getImage(), 50);
             }

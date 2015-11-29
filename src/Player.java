@@ -57,7 +57,7 @@ public class Player {
         for (int j = 0; j < 4; j++) {
             String name = names[j];
             animations[j] = new Animacion();
-            for (int i = 1; i <= 5; i++) {
+            for (int i = 1; i <= 4; i++) {
                 animations[j].addScene(
                         new ImageIcon(getClass().getResource("/" + name + i + ".png")).getImage(), 50);
             }
@@ -86,10 +86,14 @@ public class Player {
 
     public boolean isValidUp(int[][] matrix, int tam, int x, int y) {
         boolean OUT = false;
-        if (matrix[getMatrixPositionY(y, tam)][getMatrixPositionX(x, tam)] == 5
-                || matrix[getMatrixPositionY(y + tam, tam)][getMatrixPositionX(x, tam)] == 2
-                || matrix[getMatrixPositionY(y, tam)][getMatrixPositionX(x, tam)] == 3
-                || matrix[getMatrixPositionY(y, tam)][getMatrixPositionX(x, tam)] == 4) {
+        if (y > 0) {
+            if (matrix[getMatrixPositionY(y, tam)][getMatrixPositionX(x, tam)] == 5
+                    || matrix[getMatrixPositionY(y + tam, tam)][getMatrixPositionX(x, tam)] == 2
+                    || matrix[getMatrixPositionY(y, tam)][getMatrixPositionX(x, tam)] == 3
+                    || matrix[getMatrixPositionY(y, tam)][getMatrixPositionX(x, tam)] == 4) {
+                OUT = true;
+            }
+        } else {
             OUT = true;
         }
         return OUT;
@@ -151,15 +155,15 @@ public class Player {
     }
 
     public void CaidaLibre(int[][] matrix, int tam, long time) {
-        
-            if (matrix[getMatrixPositionY(y, tam)][getMatrixPositionX(x, tam)] != 3) {
-                if (matrix[getMatrixPositionY(y + tam, tam)][getMatrixPositionX(x, tam)] == 6
-                        || matrix[getMatrixPositionY(y + tam, tam)][getMatrixPositionX(x, tam)] == 5
-                        || matrix[getMatrixPositionY(y + tam, tam)][getMatrixPositionX(x, tam)] == 0) {
-                    moveDown(time, matrix, tam);
-                }
+
+        if (matrix[getMatrixPositionY(y, tam)][getMatrixPositionX(x, tam)] != 3) {
+            if (matrix[getMatrixPositionY(y + tam, tam)][getMatrixPositionX(x, tam)] == 6
+                    || matrix[getMatrixPositionY(y + tam, tam)][getMatrixPositionX(x, tam)] == 5
+                    || matrix[getMatrixPositionY(y + tam, tam)][getMatrixPositionX(x, tam)] == 0) {
+                moveDown(time, matrix, tam);
             }
-        
+        }
+
     }
 
     public void draw(Graphics g) {

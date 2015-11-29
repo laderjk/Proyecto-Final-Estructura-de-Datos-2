@@ -27,11 +27,12 @@ public class WelcomeScreen extends JFrame {
 
     public Thread loop;
     public Thread first;
-    public Canvas pantalla;
+    public static Canvas pantalla;
     long time;
     boolean Press = false;
     ImageIcon Welcome1 = new ImageIcon(getClass().getResource("/LoadRunnerW1.png"));
     ImageIcon Welcome2 = new ImageIcon(getClass().getResource("/LoadRunnerW2.png"));
+    ImageIcon Transicion5 = new ImageIcon(getClass().getResource("/Transicion5.png"));
 
     public WelcomeScreen() throws Exception {
         pantalla = new Canvas();
@@ -54,9 +55,15 @@ public class WelcomeScreen extends JFrame {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_ENTER: {
                         try {
-                            MainFrame.main();
+                            pantalla.createBufferStrategy(2);
+                            Graphics g = pantalla.getBufferStrategy().getDrawGraphics();
+                            Transicion(g);
+                            
+
                             break;
                         } catch (Exception ex) {
+                            Logger.getLogger(WelcomeScreen.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (Throwable ex) {
                             Logger.getLogger(WelcomeScreen.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
@@ -70,20 +77,12 @@ public class WelcomeScreen extends JFrame {
             public void run() {
                 pantalla.createBufferStrategy(2);
                 Graphics g = pantalla.getBufferStrategy().getDrawGraphics();
-
                 while (true) {
 
                     try {
-
-                        if (Press) {
-                            g.drawImage(Welcome1.getImage(), 0, 0, null);
-                            Press = false;
-
-                        } else {
-                            g.drawImage(Welcome1.getImage(), 0, 0, null);
-                            Press = true;
-                        }
+                        g.drawImage(Welcome1.getImage(), 0, 0, null);
                         pantalla.getBufferStrategy().show();
+                        
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -95,12 +94,28 @@ public class WelcomeScreen extends JFrame {
 
     }
 
+    public void VisibleOff() {
+        this.setVisible(false);
+    }
+
+    public void Transicion(Graphics g) {
+        g.drawImage(Transicion5.getImage(), 0, 0, null);
+        
+        //MainFrame.main();
+        //VisibleOff();
+    }
+
+    public void Welcome() {
+
+    }
+
     public static void main(String args[]) {
         try {
             WelcomeScreen W = new WelcomeScreen();
             W.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             W.setVisible(true);
-            W.loop.start();          
+            W.loop.start();
+            
 
         } catch (Exception e) {
             e.printStackTrace();
