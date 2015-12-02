@@ -23,7 +23,6 @@ public class Enemigo {
     String path;
     int currentAnimation;
     int currentDirection;
-    Grafo graph = new Grafo();
     int UltimoMove = 0;
 
     public Enemigo(int x, int y, int vx, int vy, String path) {
@@ -144,10 +143,10 @@ public class Enemigo {
 
     public void AutoMovimiento(int PosEneX, int PosEneY, int PosPlayerX, int PosPlayerY, long time, int[][] matrix, int tam) {
 
-        int NodoMeta = graph.CaminoMin(PosEneX, PosEneY, PosPlayerX, PosPlayerY);
+        int NodoMeta = MainFrame.graf.CaminoMin(PosEneX, PosEneY, PosPlayerX, PosPlayerY);
         if (NodoMeta > 0) {
-            int MetaX = graph.MatrizUbicacionNodosNivel1[NodoMeta][0];
-            int MetaY = graph.MatrizUbicacionNodosNivel1[NodoMeta][1];
+            int MetaX = MainFrame.graf.MatrizUbiNodoActual[NodoMeta][0];
+            int MetaY = MainFrame.graf.MatrizUbiNodoActual[NodoMeta][1];
 
             if (MetaY < PosEneY) {
                 moveUp(time, matrix, tam);

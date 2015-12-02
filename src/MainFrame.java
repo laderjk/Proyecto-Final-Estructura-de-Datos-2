@@ -22,8 +22,9 @@ public class MainFrame extends JFrame {
     public Enemigo Enemigo1;
     public Enemigo Enemigo2;
     public Enemigo Enemigo3;
+    static public int MundoActual = 1;
     long currentTime = 0;
-    public  int world2[][] = {
+    public  int world[][] = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -55,7 +56,7 @@ public class MainFrame extends JFrame {
         {1, 6, 2, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1},
         {1, 5, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 2, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},};
-    public static int world[][] = {
+    public static int world2[][] = {
         {7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7},
         {7, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 2, 7},
         {7, 2, 7, 7, 1, 7, 7, 2, 6, 6, 6, 2, 1, 1, 1, 1, 1, 1, 1, 2, 5, 5, 5, 5, 2, 7},
@@ -72,6 +73,7 @@ public class MainFrame extends JFrame {
         {7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
         {7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7},};
     public Mundo mundo;
+    public static Grafo graf;
     public int tam = 40;
     public static int Minas = 2;
 
@@ -148,6 +150,7 @@ public class MainFrame extends JFrame {
         Enemigo2.loadPics(names);
         Enemigo3.loadPics(names);
         mundo = new Mundo(world, tam);
+        graf = new Grafo (Grafo.MatrizAdyNivel1, Grafo.MatrizUbicacionNodosNivel1);
         movieLoop = new Thread(new Runnable() {
 
             @Override
@@ -166,14 +169,14 @@ public class MainFrame extends JFrame {
                         if (Minas == 0) {
                             // System.out.println("Ganaste");
                         }
-                        //Enemigo1.AutoMovimiento(Enemigo1.PosX, Enemigo1.PosY, Jugador.PosX, Jugador.PosY, currentTime, mundo.world, tam);
-                        //Enemigo2.AutoMovimiento(Enemigo2.PosX, Enemigo2.PosY, Jugador.PosX, Jugador.PosY, currentTime, mundo.world, tam);
-                        //Enemigo3.AutoMovimiento(Enemigo3.PosX, Enemigo3.PosY, Jugador.PosX, Jugador.PosY, currentTime, mundo.world, tam);
+                        Enemigo1.AutoMovimiento(Enemigo1.PosX, Enemigo1.PosY, Jugador.PosX, Jugador.PosY, currentTime, mundo.world, tam);
+                        Enemigo2.AutoMovimiento(Enemigo2.PosX, Enemigo2.PosY, Jugador.PosX, Jugador.PosY, currentTime, mundo.world, tam);
+                        Enemigo3.AutoMovimiento(Enemigo3.PosX, Enemigo3.PosY, Jugador.PosX, Jugador.PosY, currentTime, mundo.world, tam);
                         //Validar Colisión
                         if (Enemigo1.PosX == Jugador.PosX && Enemigo1.PosY == Jugador.PosY) {
                             System.out.println("Perdiste");
                         }
-
+                        //System.out.println("POSX"+Jugador.x+"POSY"+Jugador.y);
                         //Rehace los ladrillos rotos
                         mundo.AutoeliminarHuecos(currentTime);
                         //Valida la caida del personaje
@@ -205,10 +208,10 @@ public class MainFrame extends JFrame {
                                 break;
                             }
                         }
-                        //Jugador.draw(g);
-                        //Enemigo1.draw(g);
-                        //Enemigo2.draw(g);
-                        //Enemigo3.draw(g);
+                        Jugador.draw(g);
+                        Enemigo1.draw(g);
+                        Enemigo2.draw(g);
+                        Enemigo3.draw(g);
                         Thread.sleep(10);
                         c.getBufferStrategy().show();
                     } catch (Exception e) {
@@ -225,7 +228,18 @@ public class MainFrame extends JFrame {
         mundo = new Mundo(world2, tam);
         Jugador.x = 500;
         Jugador.y = 360;
+        Enemigo1.x = 84;
+        Enemigo1.y = 40;
+        Enemigo2.x = 112;
+        Enemigo2.y = 280;
+        Enemigo3.x = 876;
+        Enemigo3.y = 200;
         mundo.AgregarMinasRandom();
+        graf.MatrizAdyActual = Grafo.MatrizAdyNivel2;
+        graf.MatrizUbiNodoActual = Grafo.MatrizUbicacionNodosNivel2;
+        Minas = 2;
+        MundoActual = 2;
+        
     }
 
     public static void main() {

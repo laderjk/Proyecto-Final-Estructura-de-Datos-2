@@ -47,7 +47,7 @@ public class Mundo {
                         break;
                     }
                     case 7: {
-                         g.drawImage(LadrilloFijo.getImage(), j * tam, i * tam, null);
+                        g.drawImage(LadrilloFijo.getImage(), j * tam, i * tam, null);
                         //System.out.println("blanco " + i + " " + "j");
                         break;
                     }
@@ -109,31 +109,40 @@ public class Mundo {
     }
 
     public void AgregarEscaleraGanadora() {
-        if (MainFrame.Minas == 0) {
-            world[0][17] = 2;
-            world[1][17] = 2;
-            world[2][17] = 2;
-            world[3][17] = 2;
-            world[4][17] = 2;
+        if (MainFrame.MundoActual == 1) {
+            if (MainFrame.Minas == 0) {
+                world[0][17] = 2;
+                world[1][17] = 2;
+                world[2][17] = 2;
+                world[3][17] = 2;
+                world[4][17] = 2;
+            }
+        }
+        if (MainFrame.MundoActual == 2) {
+            if (MainFrame.Minas == 0) {
+                world[0][22] = 2;
+                world[1][22] = 2;
+                world[2][22] = 2;
+            }
         }
     }
-    
-    public void AgregarHuecoEnMapa (int x, int y, long Start){
-        long End = Start+10000;
+
+    public void AgregarHuecoEnMapa(int x, int y, long Start) {
+        long End = Start + 10000;
         HuecosEnMapa object = new HuecosEnMapa(x, y, Start, End);
         listaHuecos.add(object);
     }
-    
-    public void AutoeliminarHuecos (long time){
-        if (listaHuecos.size()>0) {
-            
-            if (listaHuecos.get(0).getTimeEnd()<time) {
-               
+
+    public void AutoeliminarHuecos(long time) {
+        if (listaHuecos.size() > 0) {
+
+            if (listaHuecos.get(0).getTimeEnd() < time) {
+
                 int i = listaHuecos.get(0).getX();
                 int j = listaHuecos.get(0).getY();
-                world[i][j]=1;
+                world[i][j] = 1;
                 listaHuecos.remove(0);
-            }  
+            }
         }
     }
 
@@ -163,7 +172,6 @@ public class Mundo {
             return y;
         }
 
-        
     }
 
 }
