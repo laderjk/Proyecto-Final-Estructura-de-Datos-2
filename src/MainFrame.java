@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
     public Enemigo Enemigo2;
     public Enemigo Enemigo3;
     long currentTime = 0;
-    public static int world[][] = {
+    public  int world2[][] = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -55,7 +55,7 @@ public class MainFrame extends JFrame {
         {1, 6, 2, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1},
         {1, 5, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 2, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},};
-    public static int world2[][] = {
+    public static int world[][] = {
         {7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7},
         {7, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 2, 7},
         {7, 2, 7, 7, 1, 7, 7, 2, 6, 6, 6, 2, 1, 1, 1, 1, 1, 1, 1, 2, 5, 5, 5, 5, 2, 7},
@@ -73,7 +73,7 @@ public class MainFrame extends JFrame {
         {7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7},};
     public Mundo mundo;
     public int tam = 40;
-    public static int Minas = 0;
+    public static int Minas = 2;
 
     public MainFrame(int w, int h) throws Exception {
         c = new Canvas();
@@ -178,15 +178,15 @@ public class MainFrame extends JFrame {
                         mundo.AutoeliminarHuecos(currentTime);
                         //Valida la caida del personaje
                         if (Jugador.y > 0) {
-                            Jugador.CaidaLibre(world, tam, currentTime);
+                            Jugador.CaidaLibre(mundo.world, tam, currentTime);
                         } else {
-                            System.out.println("Ganaste");
+                            
                             CambiarMundo2();
                         }
 
-                        Enemigo1.CaidaLibre(world, tam, currentTime);
-                        Enemigo2.CaidaLibre(world, tam, currentTime);
-                        Enemigo3.CaidaLibre(world, tam, currentTime);
+                        Enemigo1.CaidaLibre(mundo.world, tam, currentTime);
+                        Enemigo2.CaidaLibre(mundo.world, tam, currentTime);
+                        Enemigo3.CaidaLibre(mundo.world, tam, currentTime);
                         switch (Jugador.currentDirection) {
                             case Player.RIGTH: {
                                 Jugador.moveRigth(currentTime, mundo.world, tam);
@@ -205,10 +205,10 @@ public class MainFrame extends JFrame {
                                 break;
                             }
                         }
-                        Jugador.draw(g);
-                        Enemigo1.draw(g);
-                        Enemigo2.draw(g);
-                        Enemigo3.draw(g);
+                        //Jugador.draw(g);
+                        //Enemigo1.draw(g);
+                        //Enemigo2.draw(g);
+                        //Enemigo3.draw(g);
                         Thread.sleep(10);
                         c.getBufferStrategy().show();
                     } catch (Exception e) {
@@ -220,13 +220,12 @@ public class MainFrame extends JFrame {
     }
 
     public void CambiarMundo2() throws Exception {
-        WelcomeScreen w = new WelcomeScreen();
-        w.First = false;
-        w.IsTransicion = false;
-        w.TransicionOUT(w);
-        mundo.world = world2;
-        Jugador.x =700;
-        Jugador.y =480;
+        
+        WelcomeScreen.Prueba();
+        mundo = new Mundo(world2, tam);
+        Jugador.x = 500;
+        Jugador.y = 360;
+        mundo.AgregarMinasRandom();
     }
 
     public static void main() {

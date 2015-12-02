@@ -33,6 +33,7 @@ public class WelcomeScreen extends JFrame {
 
     public Thread loop;
     public Thread first;
+    static public Thread transicion;
     public static Canvas pantalla;
     static long StartTime;
     boolean First = false;
@@ -40,10 +41,10 @@ public class WelcomeScreen extends JFrame {
     boolean FirstOUT = true;
     boolean IsTransicionOUT = true;
     boolean Press = false;
+    boolean FIN = false;
     ImageIcon Welcome1 = new ImageIcon(getClass().getResource("/LoadRunnerW1.png"));
     ImageIcon Welcome2 = new ImageIcon(getClass().getResource("/LoadRunnerW2.png"));
     ImageIcon Transicion5 = new ImageIcon(getClass().getResource("/Transicion5.png"));
-    
 
     public WelcomeScreen() throws Exception {
         pantalla = new Canvas();
@@ -89,8 +90,28 @@ public class WelcomeScreen extends JFrame {
                 while (true) {
                     try {
                         g.drawImage(Welcome1.getImage(), 0, 0, null);
-                        pantalla.getBufferStrategy().show();
+                        if (FIN== false) {
+                            pantalla.getBufferStrategy().show();
+                        }
                         Transicion();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        });
+
+        transicion = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                pantalla.createBufferStrategy(2);
+                Graphics g = pantalla.getBufferStrategy().getDrawGraphics();
+                while (true) {
+                    try {
+                        g.drawImage(Transicion5.getImage(), 0, 0, null);
+                        pantalla.getBufferStrategy().show();
+                        TransicionOUT();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -111,29 +132,34 @@ public class WelcomeScreen extends JFrame {
             First = false;
         }
         if (IsTransicion) {
-            if (System.currentTimeMillis() > (StartTime + 2000)) {
+            if (System.currentTimeMillis() > (StartTime + 100)) {
                 MainFrame.main();
                 VisibleOff();
+                FIN = true;
                 IsTransicion = false;
             }
         }
     }
 
-    public void TransicionOUT(WelcomeScreen W) throws InterruptedException {
-        Welcome1 = Transicion5;
-        W.setVisible(true);
-        W.loop.start();
+    public void TransicionOUT() throws InterruptedException {
         if (FirstOUT) {
             StartTime = System.currentTimeMillis();
             FirstOUT = false;
         }
         if (IsTransicionOUT) {
-            if (System.currentTimeMillis() > (StartTime + 2000)) {           
-                W.VisibleOff();
+            if (System.currentTimeMillis() > (StartTime + 100)) {
+                VisibleOff();
                 IsTransicionOUT = false;
             }
-        }    
-       
+        }
+
+    }
+
+    public static void Prueba() throws Exception {
+        WelcomeScreen W = new WelcomeScreen();
+        W.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        W.setVisible(true);
+        WelcomeScreen.transicion.start();
     }
 
     public static void main(String args[]) {
