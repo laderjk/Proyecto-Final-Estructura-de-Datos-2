@@ -88,7 +88,7 @@ public class Player {
         boolean OUT = false;
         if (y > 0) {
             if (matrix[getMatrixPositionY(y, tam)][getMatrixPositionX(x, tam)] == 5
-                    || matrix[getMatrixPositionY(y + tam, tam)][getMatrixPositionX(x, tam)] == 2
+                    || matrix[getMatrixPositionY(y + 30, tam)][getMatrixPositionX(x, tam)] == 2
                     || matrix[getMatrixPositionY(y, tam)][getMatrixPositionX(x, tam)] == 3
                     || matrix[getMatrixPositionY(y, tam)][getMatrixPositionX(x, tam)] == 4) {
                 OUT = true;

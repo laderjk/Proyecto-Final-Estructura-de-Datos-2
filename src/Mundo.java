@@ -97,7 +97,7 @@ public class Mundo {
     public void AgregarMinasRandom() {
         int MinasCreadas = 0;
         Random rnd = new Random();
-        while (MinasCreadas < 6) {
+        while (MinasCreadas < 2) {
             int i = (int) (rnd.nextDouble() * 15 + 0);
             int j = (int) (rnd.nextDouble() * 26 + 0);
             if (world[i][j] == 5) {

@@ -15,7 +15,7 @@ import javax.swing.JFrame;
  * @author lader
  */
 public class MainFrame extends JFrame {
-    
+
     public Thread movieLoop;
     public Canvas c;
     public Player Jugador;
@@ -73,19 +73,19 @@ public class MainFrame extends JFrame {
         {7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7},};
     public Mundo mundo;
     public int tam = 40;
-    public static int Minas = 6;
-    
+    public static int Minas = 0;
+
     public MainFrame(int w, int h) throws Exception {
         c = new Canvas();
         this.setSize(w, h);
         c.setSize(w, h);
         this.add(c);
         this.addKeyListener(new KeyListener() {
-            
+
             @Override
             public void keyTyped(KeyEvent e) {
             }
-            
+
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
@@ -107,7 +107,7 @@ public class MainFrame extends JFrame {
                     }
                 }
             }
-            
+
             @Override
             public void keyReleased(KeyEvent e) {
                 switch (e.getKeyCode()) {
@@ -149,13 +149,13 @@ public class MainFrame extends JFrame {
         Enemigo3.loadPics(names);
         mundo = new Mundo(world, tam);
         movieLoop = new Thread(new Runnable() {
-            
+
             @Override
             public void run() {
                 c.createBufferStrategy(2);
                 Graphics g = c.getBufferStrategy().getDrawGraphics();
                 long startTime = System.currentTimeMillis();
-                
+
                 while (true) {
                     try {
                         //Toma el tiempo actual
@@ -164,7 +164,7 @@ public class MainFrame extends JFrame {
                         mundo.draw(g);
                         //Valida Si ganó
                         if (Minas == 0) {
-                           // System.out.println("Ganaste");
+                            // System.out.println("Ganaste");
                         }
                         //Enemigo1.AutoMovimiento(Enemigo1.PosX, Enemigo1.PosY, Jugador.PosX, Jugador.PosY, currentTime, mundo.world, tam);
                         //Enemigo2.AutoMovimiento(Enemigo2.PosX, Enemigo2.PosY, Jugador.PosX, Jugador.PosY, currentTime, mundo.world, tam);
@@ -177,12 +177,13 @@ public class MainFrame extends JFrame {
                         //Rehace los ladrillos rotos
                         mundo.AutoeliminarHuecos(currentTime);
                         //Valida la caida del personaje
-                        if (Jugador.y>0) {
+                        if (Jugador.y > 0) {
                             Jugador.CaidaLibre(world, tam, currentTime);
-                        }else{
+                        } else {
                             System.out.println("Ganaste");
+                            CambiarMundo2();
                         }
-                                               
+
                         Enemigo1.CaidaLibre(world, tam, currentTime);
                         Enemigo2.CaidaLibre(world, tam, currentTime);
                         Enemigo3.CaidaLibre(world, tam, currentTime);
@@ -217,7 +218,17 @@ public class MainFrame extends JFrame {
             }
         });
     }
-    
+
+    public void CambiarMundo2() throws Exception {
+        WelcomeScreen w = new WelcomeScreen();
+        w.First = false;
+        w.IsTransicion = false;
+        w.TransicionOUT(w);
+        mundo.world = world2;
+        Jugador.x =700;
+        Jugador.y =480;
+    }
+
     public static void main() {
         try {
             MainFrame p = new MainFrame(1060, 640);
